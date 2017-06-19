@@ -30,6 +30,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Parse incoming request body to Json before handler it (req.body.x)
 app.use(bodyParser.json());
 
+//call Routers
+app.use('/api/students/', students);
+
 app.get('/', (req, res)=>{
   res.render('public/index.html');
 })
