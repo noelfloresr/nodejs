@@ -31,11 +31,28 @@ router.post('/', function(req, res){
   let student = new Students({
     name: req.body.name,
     lastName: req.body.lastName,
-    email: req.body.emal
+    email: req.body.emal,
+
   });
   Students.addStudent(student, function(err, student){
     if(err){
       throw err;
+    }
+    res.json({"student": student});
+  })
+});
+
+router.put('/enrollment/:id', function(req, res){
+  let id = req.params.id;
+  let enrollment = {
+      year: req.body.year,
+      schoolGrade: req.body.schoolGrade
+  };
+
+  Students.addEnrollment(id, enrollment, {new:true}, function(err, student){
+    if(err){
+      console.log('sfsf');
+      res.json({success: false, msg:err});
     }
     res.json({"student": student});
   })

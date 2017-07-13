@@ -12,7 +12,8 @@ let StudentSchema = mongoose.Schema({
   email:{
     type: String,
     lowercase: true
-  }
+  },
+  enrollment:[{year: Number, schoolGrade: String}]
 });
 
 let Students = mongoose.model('Students', StudentSchema);
@@ -40,6 +41,15 @@ module.exports.addStudent = function(objStudent, callback){
   //A shortcode without validation and so on is the method
   //Students.create(objStudent, callback);
   localStudent.save(callback);
+}
+
+module.exports.addEnrollment = function(id, enrollment, options, callback){
+  let query = {
+    _id: id,
+    'enrollment.year': {$ne:enrollment.year}
+  };
+
+  Students.findOneAndUpdate(query, {$push:{enrollment:enrollment}}, options, callback);
 }
 
 //Update an student
